@@ -1,7 +1,7 @@
 ############################################
 # Base Image
 ############################################
-FROM serversideup/php:8.2-fpm-nginx-bookworm AS base
+FROM serversideup/php:8.4-fpm-nginx AS base
 
 ############################################
 # Development Image
@@ -19,6 +19,10 @@ RUN apt-get update \
     && apt-get install unzip -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install xdebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
 # Save the build arguments as a variable
 ARG USER_ID
